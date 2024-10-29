@@ -32,14 +32,13 @@
                     <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                         <div class="card-body">
                             <h3 class="text-center mb-4">Login</h3>
-                            <form method="post" action="/home.jsp">
+                            <form method="post" action="acao?a=login">
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Digite seu email" name="user">
-                                </div>
+                                    <label for="username" class="form-label">Username</label>
+                                    <input class="form-control" id="username" placeholder="Digite seu username" name="username" required> </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Digite sua senha" name="password">
+                                    <input type="password" class="form-control" id="password" placeholder="Digite sua senha" name="password" required>
                                 </div>
                                 <a href="/signup.jsp">Gostaria de cadastrar algum usuário novo?</a>
                                 <button type="submit" class="btn btn-primary w-100">Entrar</button>

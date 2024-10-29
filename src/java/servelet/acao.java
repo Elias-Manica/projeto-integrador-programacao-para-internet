@@ -4,12 +4,16 @@
  */
 package servelet;
 
+import dao.UserDAO;
+import entidade.User;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -55,7 +59,7 @@ public class acao extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
     }
 
     /**
@@ -69,7 +73,34 @@ public class acao extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+         String a = request.getParameter("a");
+
+        if (a.equals("login")) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
+
+            User user = new UserDAO().autenticar(username, password);
+
+            if (user != null) {
+                HttpSession sessao = request.getSession();
+                sessao.setAttribute("user", user);
+
+                encaminharPagina("home.jsp", request, response);
+            } else {
+                encaminharPagina("erro.jsp", request, response);
+            }
+        }
+
+        if (a.equals("logout")) {
+            HttpSession sessao = request.getSession();
+            sessao.invalidate();
+
+            encaminharPagina("login.jsp", request, response);
+        }
     }
 
     /**
@@ -82,4 +113,12 @@ public class acao extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void encaminharPagina(String pagina, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            RequestDispatcher rd = request.getRequestDispatcher(pagina);
+            rd.forward(request, response);
+        } catch (Exception e) {
+            System.out.println("Erro ao encaminhar: " + e);
+        }
+    }
 }
