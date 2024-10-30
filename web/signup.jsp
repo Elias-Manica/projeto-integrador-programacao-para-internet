@@ -32,25 +32,26 @@
                     <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                         <div class="card-body">
                             <h3 class="text-center mb-4">Cadastro de Usuário</h3>
-                            <form method="post">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Nome de Usuário</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Digite o nome de usuário" name="username" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Digite a senha" name="password" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="userType" class="form-label">Tipo de Usuário</label>
-                                    <select class="form-control" id="userType" name="userType" required>
-                                        <option value="admin">Admin</option>
-                                        <option value="user">User</option>
-                                    </select>
-                                </div>
-                                <a href="/login.jsp">Já tem o usuário? Faça o login</a>
-                                <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
-                            </form>
+                           <form method="post" action="acao?a=cadastrarUsuario">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" id="username" placeholder="Digite o nome de usuário" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="password" placeholder="Digite a senha" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userType" class="form-label">Tipo de Usuário</label>
+                                <select class="form-control" id="userType" name="userType" required>
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
+                                </select>
+                            </div>
+                            <a href="/login.jsp">Já tem o usuário? Faça o login</a>
+                            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+                        </form>
+
                         </div>
                     </div>
                 </div>

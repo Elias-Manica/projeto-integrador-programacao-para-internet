@@ -101,6 +101,26 @@ public class acao extends HttpServlet {
 
             encaminharPagina("login.jsp", request, response);
         }
+        if (a.equals("cadastrarUsuario")) {
+            // Pega os parâmetros do formulário de cadastro
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String userType = request.getParameter("userType");
+
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setPasswordHash(password);
+            newUser.setRole(userType);
+
+            UserDAO userDAO = new UserDAO();
+            boolean isRegistered = userDAO.cadastrar(newUser);
+
+            if (isRegistered) {
+                encaminharPagina("login.jsp", request, response);
+            } else {
+                encaminharPagina("erro_cadastro_user.jsp", request, response);
+            }
+        }
     }
 
     /**
