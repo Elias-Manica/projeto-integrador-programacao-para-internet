@@ -11,26 +11,26 @@
     <body class="bg-light">
         <div class="container mt-5">
             <h2 class="text-center mb-4">Cadastro de Projetos</h2>
-            <form>
+            <form method="post" action="acao?a=cadastroProjetos">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome do Projeto</label>
-                    <input type="text" class="form-control" id="name" placeholder="Digite o nome do projeto" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite o nome do projeto" required>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrição</label>
-                    <textarea class="form-control" id="description" rows="3" placeholder="Descrição do projeto"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Descrição do projeto"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="start_date" class="form-label">Data de Início</label>
-                    <input type="date" class="form-control" id="start_date" required>
+                    <input type="date" class="form-control" name="start_date" id="start_date" required>
                 </div>
                 <div class="mb-3">
                     <label for="end_date" class="form-label">Data de Término</label>
-                    <input type="date" class="form-control" id="end_date">
+                    <input type="date" class="form-control" id="end_date" name="end_date">
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
-                    <select class="form-select" id="status">
+                    <select class="form-select" id="status" name="status">
                         <option selected>Selecione o status</option>
                         <option value="Em andamento">Em andamento</option>
                         <option value="Concluído">Concluído</option>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="priority" class="form-label">Prioridade</label>
-                    <input type="number" class="form-control" id="priority" min="1" max="5" placeholder="Prioridade (1-5)" required>
+                    <input type="number" class="form-control" id="priority" name="priority" min="1" max="5" placeholder="Prioridade (1-5)" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Cadastrar Projeto</button>
             </form>

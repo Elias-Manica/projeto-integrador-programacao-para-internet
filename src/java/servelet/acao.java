@@ -4,7 +4,9 @@
  */
 package servelet;
 
+import dao.ProjectDAO;
 import dao.UserDAO;
+import entidade.Project;
 import entidade.User;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -150,6 +152,43 @@ public class acao extends HttpServlet {
                 encaminharPagina("erro.jsp", request, response);
             }
         }
+        
+        if (a.equals("cadastroProjetos")) {
+            System.out.print("entreiii");
+            String name = request.getParameter("name");
+            System.out.print(name + " name");
+            String description = request.getParameter("description");
+
+            // Converte as datas para java.sql.Date
+            java.sql.Date startDate = java.sql.Date.valueOf(request.getParameter("start_date"));
+            java.sql.Date endDate = request.getParameter("end_date").isEmpty() ? null : java.sql.Date.valueOf(request.getParameter("end_date"));
+
+            String status = request.getParameter("status");
+            int priority = Integer.parseInt(request.getParameter("priority"));
+
+            User usuario = (User) request.getSession().getAttribute("user");
+            int userId = usuario.getId();
+
+            Project newProject = new Project();
+            newProject.setName(name);
+            newProject.setDescription(description);
+            newProject.setStartDate(startDate);
+            newProject.setEndDate(endDate);
+            newProject.setStatus(status);
+            newProject.setPriority(priority);
+            newProject.setUserId(userId);
+
+            System.out.print("to aqui");
+            ProjectDAO projectDAO = new ProjectDAO();
+            boolean isProjectRegistered = projectDAO.cadastrarProjeto(newProject);
+
+            if (isProjectRegistered) {
+                encaminharPagina("listagem_projetos.jsp", request, response);
+            } else {
+                encaminharPagina("erro_cadastro_projeto.jsp", request, response);
+            }
+        }
+
     }
 
     /**
