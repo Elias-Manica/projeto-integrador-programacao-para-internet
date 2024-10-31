@@ -50,7 +50,9 @@
                         <th>Projeto</th>
                         <th>Prioridade</th>
                         <th>Complexidade</th>
-                        <th>Ações</th> <!-- Coluna de ações -->
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <th>Ações</th> <!-- Coluna de ações -->
+                        <% } %>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,10 +62,13 @@
                         <td>Projeto A</td>
                         <td>4</td>
                         <td>3</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Excluir</button>
-                        </td>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <td>
+                                <button class="btn btn-warning btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        <% } %>
+                        
                     </tr>
                     <tr>
                         <td>2</td>
@@ -71,10 +76,12 @@
                         <td>Projeto B</td>
                         <td>5</td>
                         <td>4</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Excluir</button>
-                        </td>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <td>
+                                <button class="btn btn-warning btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        <% } %>
                     </tr>
                 </tbody>
             </table>

@@ -60,6 +60,7 @@ public class acao extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // processRequest(request, response);
+       
     }
 
     /**
@@ -119,6 +120,34 @@ public class acao extends HttpServlet {
                 encaminharPagina("login.jsp", request, response);
             } else {
                 encaminharPagina("erro_cadastro_user.jsp", request, response);
+            }
+        }
+        
+        
+        if (a.equals("editarCargo")) {
+            int userId = Integer.parseInt(request.getParameter("id"));
+            String newRole = request.getParameter("newRole");
+
+            UserDAO userDAO = new UserDAO();
+            boolean isEdited = userDAO.editarCargo(userId, newRole);
+
+            if (isEdited) {
+                encaminharPagina("users.jsp", request, response);
+            } else {
+                encaminharPagina("erro.jsp", request, response);
+            }
+        }
+
+        if (a.equals("deletarUsuario")) {
+            int userId = Integer.parseInt(request.getParameter("id"));
+
+            UserDAO userDAO = new UserDAO();
+            boolean isDeleted = userDAO.deletarUsuario(userId);
+
+            if (isDeleted) {
+                encaminharPagina("users.jsp", request, response);
+            } else {
+                encaminharPagina("erro.jsp", request, response);
             }
         }
     }

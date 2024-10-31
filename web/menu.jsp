@@ -34,21 +34,32 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/home.jsp">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cadastro_projetos.jsp">Cadastro de Projetos</a>
-                        </li>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cadastro_projetos.jsp">Cadastro de Projetos</a>
+                            </li>
+                        <% } %>
                         <li class="nav-item">
                             <a class="nav-link" href="/listagem_projetos.jsp">Listagem de Projetos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cadastro_requisitos.jsp">Cadastro de Requisitos</a>
-                        </li>
+                         <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cadastro_requisitos.jsp">Cadastro de Requisitos</a>
+                            </li>
+                        <% } %>
                         <li class="nav-item">
                             <a class="nav-link" href="/listagem_requisitos.jsp">Listagem de Requisitos</a>
                         </li>
+                       
                         <li class="nav-item">
                             <a class="nav-link" href="/geracao_relatorios.jsp">Geração de relatorios</a>
                         </li>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users.jsp">Listar usuários</a>
+                            </li>
+                        <% } %>
+
                     </ul>
                     <form class="d-flex"  method="post" action="acao?a=logout">
                         <button class="btn btn-outline-danger" type="submit">Sair</button>

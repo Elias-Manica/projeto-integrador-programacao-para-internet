@@ -9,6 +9,9 @@ import apoio.ConexaoBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Elias
@@ -68,5 +71,65 @@ public class UserDAO {
         
         return sucesso;
     }
+    
+    public ArrayList<User> listarUsuarios() {
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        
+        try {
+            Connection con = ConexaoBD.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setRole(rs.getString("role"));
+                users.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar usuário: " + e.getMessage());
+        }
+        
+        return users;
+    }
+
+    // Editar o cargo do usuário
+    public boolean editarCargo(int userId, String newRole) {
+        String sql = "UPDATE users SET role = ? WHERE id = ?";
+        try {
+            Connection con = ConexaoBD.getInstance().getConnection();
+           PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, newRole);
+            ps.setInt(2, userId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println("Erro ao editar usuário: " + e.getMessage());
+           return false;
+        }
+    }
+
+    // Deletar usuário
+    public boolean deletarUsuario(int userId) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        
+        try {
+           Connection con = ConexaoBD.getInstance().getConnection();
+           PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, userId); // Define o parâmetro do ID do usuário
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir user: " + e);
+            return false;
+        }
+    }
+
 }
 

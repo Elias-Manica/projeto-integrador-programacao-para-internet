@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%@page import="entidade.User"%>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
@@ -33,7 +35,10 @@
                         <th>Prioridade</th>
                         <th>Data de Início</th>
                         <th>Data de Término</th>
-                        <th>Ações</th> <!-- Coluna de ações -->
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <th>Ações</th> <!-- Coluna de ações -->
+                        <% } %>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -44,10 +49,13 @@
                         <td>4</td>
                         <td>2024-01-01</td>
                         <td>2024-12-31</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Excluir</button>
-                        </td>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <td>
+                                <button class="btn btn-warning btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td> <!-- Coluna de ações -->
+                        <% } %>
+                        
                     </tr>
                     <tr onclick="showRequisitos('Projeto B')" style="cursor:pointer;">
                         <td>2</td>
@@ -56,10 +64,12 @@
                         <td>3</td>
                         <td>2024-03-15</td>
                         <td>2024-09-15</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Excluir</button>
-                        </td>
+                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
+                           <td>
+                                <button class="btn btn-warning btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </td> <!-- Coluna de ações -->
+                        <% } %>
                     </tr>
                 </tbody>
             </table>
