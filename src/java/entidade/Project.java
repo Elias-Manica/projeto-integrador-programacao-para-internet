@@ -20,6 +20,11 @@ public class Project {
     private int priority;
     private int userId;
     private String createdAt;  // String para data
+    
+    public Project() {
+        name = "";
+        description = "";
+    }
 
     // Getters e Setters
     public int getId() {

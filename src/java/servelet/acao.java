@@ -62,6 +62,24 @@ public class acao extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // processRequest(request, response);
+       String a = request.getParameter("a");
+
+        if ("editarProjeto".equals(a)) {
+            int codigo = Integer.parseInt(request.getParameter("id"));
+            Project projeto = new ProjectDAO().consultar(codigo);
+            request.setAttribute("projeto", projeto);
+            encaminharPagina("cadastro_projetos.jsp", request, response);
+        }
+
+        if ("excluirProjeto".equals(a)) {
+            int codigo = Integer.parseInt(request.getParameter("id"));
+            if (new ProjectDAO().excluir(codigo)) {
+                encaminharPagina("listagem_projetos.jsp", request, response);
+            } else {
+                encaminharPagina("erro_cadastro_projeto.jsp", request, response);
+            }
+        }
+
        
     }
 
@@ -153,10 +171,9 @@ public class acao extends HttpServlet {
             }
         }
         
-        if (a.equals("cadastroProjetos")) {
-            System.out.print("entreiii");
+        if ("cadastroProjetos".equals(a)) {
+            String codigo = request.getParameter("id");
             String name = request.getParameter("name");
-            System.out.print(name + " name");
             String description = request.getParameter("description");
 
             // Converte as datas para java.sql.Date
@@ -169,20 +186,36 @@ public class acao extends HttpServlet {
             User usuario = (User) request.getSession().getAttribute("user");
             int userId = usuario.getId();
 
-            Project newProject = new Project();
-            newProject.setName(name);
-            newProject.setDescription(description);
-            newProject.setStartDate(startDate);
-            newProject.setEndDate(endDate);
-            newProject.setStatus(status);
-            newProject.setPriority(priority);
-            newProject.setUserId(userId);
+            Project project = new Project();
 
-            System.out.print("to aqui");
+            // Verifica se é para atualizar ou cadastrar novo projeto
+            if (codigo != null && !codigo.isEmpty()) {
+                int id = Integer.parseInt(codigo);
+                project.setId(id);
+            } else {
+                project.setId(0);
+            }
+
+            // Define os valores do projeto
+            project.setName(name);
+            project.setDescription(description);
+            project.setStartDate(startDate);
+            project.setEndDate(endDate);
+            project.setStatus(status);
+            project.setPriority(priority);
+            project.setUserId(userId);
+
             ProjectDAO projectDAO = new ProjectDAO();
-            boolean isProjectRegistered = projectDAO.cadastrarProjeto(newProject);
+            boolean sucesso;
 
-            if (isProjectRegistered) {
+            // Decide se vai cadastrar ou atualizar
+            if (project.getId() == 0) { // Novo projeto
+                sucesso = projectDAO.cadastrarProjeto(project);
+            } else { // Atualizar projeto existente
+                sucesso = projectDAO.atualizar(project);
+            }
+
+            if (sucesso) {
                 encaminharPagina("listagem_projetos.jsp", request, response);
             } else {
                 encaminharPagina("erro_cadastro_projeto.jsp", request, response);

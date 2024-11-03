@@ -1,7 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<%@page import="java.util.List"%>
+<%@page import="dao.ProjectDAO"%>
+<%@page import="entidade.Project"%>
 <%@page import="entidade.User"%>
+
+<%
+    ProjectDAO projectDAO = new ProjectDAO();
+    List<Project> projetos = projectDAO.listarProjetos();
+%>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
@@ -42,35 +50,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="showRequisitos('Projeto A')" style="cursor:pointer;">
-                        <td>1</td>
-                        <td>Projeto A</td>
-                        <td>Em andamento</td>
-                        <td>4</td>
-                        <td>2024-01-01</td>
-                        <td>2024-12-31</td>
-                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
-                           <td>
-                                <button class="btn btn-warning btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Excluir</button>
-                            </td> <!-- Coluna de ações -->
-                        <% } %>
-                        
-                    </tr>
-                    <tr onclick="showRequisitos('Projeto B')" style="cursor:pointer;">
-                        <td>2</td>
-                        <td>Projeto B</td>
-                        <td>Concluído</td>
-                        <td>3</td>
-                        <td>2024-03-15</td>
-                        <td>2024-09-15</td>
-                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
-                           <td>
-                                <button class="btn btn-warning btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Excluir</button>
-                            </td> <!-- Coluna de ações -->
-                        <% } %>
-                    </tr>
+                    <% for (Project projeto : projetos) { %>
+                        <tr onclick="showRequisitos('<%= projeto.getName() %>')" style="cursor:pointer;">
+                            <td><%= projeto.getId() %></td>
+                            <td><%= projeto.getName() %></td>
+                            <td><%= projeto.getStatus() %></td>
+                            <td><%= projeto.getPriority() %></td>
+                            <td><%= projeto.getStartDate() %></td>
+                            <td><%= projeto.getEndDate() %></td>
+                            <% if ("Admin".equals(usuario.getRole())) { %>
+                               <td>
+                                    <a href="acao?a=editarProjeto&id=<%= projeto.getId() %>" class="btn btn-warning btn-sm">Editar</a>
+                                    <a href="acao?a=excluirProjeto&id=<%= projeto.getId() %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                                </td>
+                            <% } %>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>
