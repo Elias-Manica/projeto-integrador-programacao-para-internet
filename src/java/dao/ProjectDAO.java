@@ -72,6 +72,25 @@ public class ProjectDAO {
         return projetos;
     }
     
+    public List<Project> listarIdProjetos() {
+        List<Project> projetos = new ArrayList<>();
+        try {
+            Connection con = ConexaoBD.getInstance().getConnection();
+            String sql = "SELECT id, name FROM projects";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Project projeto = new Project();
+                projeto.setId(rs.getInt("id"));
+                projeto.setName(rs.getString("name"));
+                projetos.add(projeto);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar projetos: " + e.getMessage());
+        }
+        return projetos;
+    }
+    
     public Project consultar(int id) {
         Project projeto = null;
         try {

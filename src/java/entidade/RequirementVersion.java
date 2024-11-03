@@ -4,6 +4,8 @@
  */
 package entidade;
 
+import java.sql.Date;
+
 /**
  *
  * @author Elias
@@ -13,7 +15,7 @@ public class RequirementVersion {
     private int requirementId;
     private int versionNumber;
     private String description;
-    private String createdAt;  // String para data
+    private Date createdAt;  // String para data
 
     // Getters e Setters
     public int getId() {
@@ -48,11 +50,11 @@ public class RequirementVersion {
         this.description = description;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

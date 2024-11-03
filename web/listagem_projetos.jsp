@@ -17,18 +17,6 @@
         <title>Listagem de Projetos</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            function showRequisitos(projectName) {
-                document.getElementById('modalTitle').innerText = 'Requisitos do Projeto: ' + projectName;
-                document.getElementById('requisitosBody').innerHTML = `
-                    <ul>
-                        <li><b>Requisito 1:</b> Versão 1 - Complexidade: 3 - Prioridade: 4</li>
-                        <li><b>Requisito 2:</b> Versão 2 - Complexidade: 4 - Prioridade: 5</li>
-                    </ul>`;
-                var requisitosModal = new bootstrap.Modal(document.getElementById('requisitosModal'));
-                requisitosModal.show();
-            }
-        </script>
     </head>
     <%@include file="menu.jsp" %>
     <body class="bg-light">
@@ -51,7 +39,7 @@
                 </thead>
                 <tbody>
                     <% for (Project projeto : projetos) { %>
-                        <tr onclick="showRequisitos('<%= projeto.getName() %>')" style="cursor:pointer;">
+                        <tr>
                             <td><%= projeto.getId() %></td>
                             <td><%= projeto.getName() %></td>
                             <td><%= projeto.getStatus() %></td>

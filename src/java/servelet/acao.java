@@ -5,8 +5,10 @@
 package servelet;
 
 import dao.ProjectDAO;
+import dao.RequirementDAO;
 import dao.UserDAO;
 import entidade.Project;
+import entidade.Requirement;
 import entidade.User;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -79,7 +81,31 @@ public class acao extends HttpServlet {
                 encaminharPagina("erro_cadastro_projeto.jsp", request, response);
             }
         }
+        
+        if ("editarRequisito".equals(a)) {
+            int codigo = Integer.parseInt(request.getParameter("id"));
+            System.out.println(codigo + " codigo");
+            Requirement requisito = new RequirementDAO().consultar(codigo);
+            System.out.println(requisito + " requisito");
+            request.setAttribute("requisitos", requisito);
+            encaminharPagina("cadastro_requisitos.jsp", request, response);
+        }
 
+        if ("excluirRequisito".equals(a)) {
+            String idParam = request.getParameter("id");
+
+            if (idParam != null && !idParam.isEmpty()) {
+                int id = Integer.parseInt(idParam);
+                RequirementDAO requirementDAO = new RequirementDAO();
+
+                if (requirementDAO.excluir(id)) {
+                    encaminharPagina("listagem_requisitos.jsp", request, response);
+                } else {
+                    encaminharPagina("erro_cadastro_requisito.jsp", request, response);
+                }
+            }
+        }
+      
        
     }
 
@@ -222,6 +248,43 @@ public class acao extends HttpServlet {
             }
         }
 
+        if ("cadastrarRequisito".equals(a)) {
+            System.out.print("entrei");
+            String idParam = request.getParameter("id");
+            String projectIdParam = request.getParameter("project");
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            int priority = Integer.parseInt(request.getParameter("priority"));
+            int complexity = Integer.parseInt(request.getParameter("complexity"));
+
+            System.out.println("passeo");
+            Requirement requirement = new Requirement();
+
+            if (idParam != null && !idParam.isEmpty()) {
+                requirement.setId(Integer.parseInt(idParam));
+            }
+
+            requirement.setProjectId(Integer.parseInt(projectIdParam));
+            requirement.setTitle(title);
+            requirement.setDescription(description);
+            requirement.setPriority(priority);
+            requirement.setComplexity(complexity);
+
+            RequirementDAO requirementDAO = new RequirementDAO();
+            boolean success;
+
+            if (requirement.getId() == 0) {
+                success = requirementDAO.salvar(requirement);
+            } else {
+                success = requirementDAO.atualizar(requirement);
+            }
+
+            if (success) {
+                encaminharPagina("listagem_requisitos.jsp", request, response);
+            } else {
+                encaminharPagina("erro_cadastro_requisito.jsp", request, response);
+            }
+        }
     }
 
     /**

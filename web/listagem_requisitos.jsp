@@ -1,4 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.RequirementDAO"%>
+<%@page import="entidade.Requirement"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -56,33 +60,25 @@
                     </tr>
                 </thead>
                 <tbody>
+                <% 
+                    RequirementDAO requirementDAO = new RequirementDAO();
+                    List<Requirement> requisitos = requirementDAO.listarRequisitos();
+                    for (Requirement req : requisitos) { 
+                %>
                     <tr>
-                        <td>1</td>
-                        <td>Requisito A</td>
-                        <td>Projeto A</td>
-                        <td>4</td>
-                        <td>3</td>
+                        <td><%= req.getId() %></td>
+                        <td><%= req.getTitle() %></td>
+                        <td><%= req.getProjectId() %></td> <!-- Mostrando o ID do projeto; para o nome, ajuste conforme necessário -->
+                        <td><%= req.getPriority() %></td>
+                        <td><%= req.getComplexity() %></td>
                         <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
                            <td>
-                                <button class="btn btn-warning btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Excluir</button>
-                            </td>
-                        <% } %>
-                        
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Requisito B</td>
-                        <td>Projeto B</td>
-                        <td>5</td>
-                        <td>4</td>
-                        <% if ("Admin".equals(usuario.getRole())) { %> <!-- Somente para Admin -->
-                           <td>
-                                <button class="btn btn-warning btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Excluir</button>
+                                <a href="acao?a=editarRequisito&id=<%= req.getId() %>" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="acao?a=excluirRequisito&id=<%= req.getId() %>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
                             </td>
                         <% } %>
                     </tr>
+                <% } %>
                 </tbody>
             </table>
         </div>
