@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -64,7 +65,7 @@ public class acao extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // processRequest(request, response);
-       String a = request.getParameter("a");
+        String a = request.getParameter("a");
 
         if ("editarProjeto".equals(a)) {
             int codigo = Integer.parseInt(request.getParameter("id"));
@@ -105,7 +106,6 @@ public class acao extends HttpServlet {
                 }
             }
         }
-      
        
     }
 
@@ -284,6 +284,28 @@ public class acao extends HttpServlet {
             } else {
                 encaminharPagina("erro_cadastro_requisito.jsp", request, response);
             }
+        }
+        
+        if ("listarRequisitos".equals(a)) {
+            System.out.println("entrei");
+            String projectId = request.getParameter("project");
+            String priority = request.getParameter("priority");
+            String complexity = request.getParameter("complexity");
+
+             RequirementDAO requirementDAO = new RequirementDAO();
+            List<Requirement> requisitos;
+            
+            if ((projectId == null || projectId.isEmpty()) &&
+                (priority == null || priority.isEmpty()) &&
+                (complexity == null || complexity.isEmpty())) {
+                // Se nenhum filtro for aplicado, buscar todos os requisitos
+                requisitos = requirementDAO.listarRequisitos();
+            } else {
+                // Buscar requisitos com base nos filtros
+                requisitos = requirementDAO.listarRequisitosFiltrados(projectId, priority, complexity);
+            }
+            request.setAttribute("requisitos", requisitos);
+            encaminharPagina("listagem_requisitos.jsp", request, response);
         }
     }
 

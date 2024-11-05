@@ -136,4 +136,52 @@ public class RequirementDAO {
         return requisitos;
     }
 
+    public List<Requirement> listarRequisitosFiltrados(String projectId, String priority, String complexity) {
+        List<Requirement> requisitos = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM requirements WHERE 1=1");
+
+        if (projectId != null && !projectId.isEmpty()) {
+            sql.append(" AND project_id = ?");
+        }
+        if (priority != null && !priority.isEmpty()) {
+            sql.append(" AND priority = ?");
+        }
+        if (complexity != null && !complexity.isEmpty()) {
+            sql.append(" AND complexity = ?");
+        }
+
+        try {
+            Connection con = ConexaoBD.getInstance().getConnection();
+            System.out.print(sql.toString());
+            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            int index = 1;
+
+            if (projectId != null && !projectId.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(projectId));
+            }
+            if (priority != null && !priority.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(priority));
+            }
+            if (complexity != null && !complexity.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(complexity));
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Requirement requisito = new Requirement();
+                requisito.setId(rs.getInt("id"));
+                requisito.setTitle(rs.getString("title"));
+                requisito.setDescription(rs.getString("description"));
+                requisito.setPriority(rs.getInt("priority"));
+                requisito.setComplexity(rs.getInt("complexity"));
+                requisito.setProjectId(rs.getInt("project_id"));
+                requisitos.add(requisito);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Trate exceções adequadamente
+        }
+
+        return requisitos;
+    }
+
 }
