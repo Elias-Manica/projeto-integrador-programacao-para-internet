@@ -1,4 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.RequirementDAO"%>
+<%@page import="entidade.Requirement"%>
+<%@page import="entidade.Project"%>
+<%@page import="entidade.Requirement"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.ProjectDAO"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -8,28 +17,27 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <%@include file="menu.jsp" %>
+    <%
+        List<Project> listaProjetos = new ProjectDAO().listarIdProjetos();
+    %>
+    
     <body class="bg-light">
         <div class="container mt-5">
             <h2 class="text-center mb-4">Geração de Relatórios</h2>
-            <form>
+            <form method="post" action="acao?a=gerarRelatorio" target="_blank">
                 <div class="mb-3">
-                    <label for="project" class="form-label">Projeto</label>
-                    <select class="form-select" id="project">
-                        <option selected>Selecione o projeto</option>
-                        <!-- Exemplo de projetos -->
-                        <option value="1">Projeto A</option>
-                        <option value="2">Projeto B</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="report_type" class="form-label">Tipo de Relatório</label>
-                    <select class="form-select" id="report_type">
-                        <option selected>Selecione o tipo de relatório</option>
-                        <option value="status">Relatório de Status</option>
-                        <option value="prioridade">Relatório de Prioridade</option>
-                        <option value="complexidade">Relatório de Complexidade</option>
-                    </select>
-                </div>
+                        <label for="project" class="form-label">Filtrar por projeto</label>
+                        <select class="form-select" id="project" name="project" required>
+                            <option value="" selected>Selecione o projeto</option>
+                            <% if (listaProjetos != null && !listaProjetos.isEmpty()) {
+                                for (Project projeto : listaProjetos) { %>
+                                <option value="<%= projeto.getId() %>"><%= projeto.getName() %> - <%= projeto.getId() %></option>
+                                <% }
+                            } else { %>
+                                <option value="">Nenhum projeto disponível</option>
+                            <% } %>
+                        </select>
+                    </div>
                 <button type="submit" class="btn btn-primary">Gerar Relatório</button>
             </form>
         </div>

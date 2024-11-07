@@ -14,6 +14,7 @@ import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -306,6 +307,18 @@ public class acao extends HttpServlet {
             }
             request.setAttribute("requisitos", requisitos);
             encaminharPagina("listagem_requisitos.jsp", request, response);
+        }
+        
+        if ("gerarRelatorio".equals(a)) {
+            int projectId = Integer.parseInt(request.getParameter("project"));
+
+            byte[] bytes = new ProjectDAO().gerarRelatorioPorProjeto(projectId);
+            response.setContentType("application/pdf");
+            response.setContentLength(bytes.length);
+            ServletOutputStream outStream = response.getOutputStream();
+            outStream.write(bytes, 0, bytes.length);
+            outStream.flush();
+            outStream.close();
         }
     }
 

@@ -10,6 +10,11 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  *
@@ -147,5 +152,44 @@ public class ProjectDAO {
         }
         return false;
     }
+    public byte[] gerarRelatorio() {
+        try {
+            Connection conn = ConexaoBD.getInstance().getConnection();
+
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/projetos.jrxml"));
+
+            Map parameters = new HashMap();
+
+            byte[] bytes = JasperRunManager.runReportToPdf(relatorio, parameters, conn);
+
+            return bytes;
+        } catch (Exception e) {
+            System.out.println("erro ao gerar relatorio: " + e);
+        }
+        return null;
+    }
+
+    public byte[] gerarRelatorioPorProjeto(int projectId) {
+        try {
+            Connection conn = ConexaoBD.getInstance().getConnection();
+
+            // Compilando o relatório principal
+            JasperReport relatorio = JasperCompileManager.compileReport(
+                getClass().getResourceAsStream("/relatorios/projetos.jrxml")
+            );
+
+            // Passando o parâmetro projectId para o relatório
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("projectId", projectId);
+
+            byte[] bytes = JasperRunManager.runReportToPdf(relatorio, parameters, conn);
+
+            return bytes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
