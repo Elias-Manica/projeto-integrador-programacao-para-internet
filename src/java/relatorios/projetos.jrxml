@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 6.20.6  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requisitos_por_projeto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd6c65d8-5b88-4a34-b408-ae4a76333f6d">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Programacao para internet"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="project-with-requirements" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2c41df7-7347-46ad-b283-3b7fdcf7e7b2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="programacao-para-internet"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="projectId" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT 
-    requirements.id AS req_id,
-    requirements.title AS req_title,
-    requirements.description AS req_description,
-    requirements.priority AS req_priority,
-    requirements.complexity AS req_complexity
+		<![CDATA[SELECT projects.id,
+       projects.name AS project_name,
+       projects.start_date,
+       projects.end_date,
+       projects.status,
+       projects.priority,
+       projects.user_id,
+       projects.created_at,
+       projects.description AS projeto_descricao,
+       requirements.id AS req_id,
+       requirements.title AS req_title,
+       requirements.description AS req_description,
+       requirements.priority AS req_priority,
+       requirements.complexity AS req_complexity
 FROM requirements
-WHERE requirements.project_id = $P{projectId}
-]]>
+INNER JOIN projects ON requirements.project_id = projects.id
+WHERE projects.id = $P{projectId}]]>
 	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="project_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="project_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="project_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="start_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="end_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="status"/>
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="priority" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="priority"/>
+		<property name="com.jaspersoft.studio.field.label" value="priority"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="user_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="created_at" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="projeto_descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="projeto_descricao"/>
+		<property name="com.jaspersoft.studio.field.label" value="projeto_descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
 	<field name="req_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="req_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="req_id"/>
@@ -44,68 +97,125 @@ WHERE requirements.project_id = $P{projectId}
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="148" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="111" height="30" uuid="a74d9b51-b029-4b16-a56c-f4f565203424">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bce69ab8-9ce7-4e24-8ec3-6692a982d069"/>
+				<reportElement x="0" y="110" width="111" height="30" uuid="060bf06f-823b-4d4d-9c8f-9b5aca9fbf83">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35da9ec8-0a71-4b07-8d84-727b4cbb699a"/>
 				</reportElement>
-				<text><![CDATA[Id do requisito]]></text>
+				<text><![CDATA[id requisito]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="111" y="0" width="111" height="30" uuid="fc6dbb55-ebba-4e7d-acdf-a73ef85b1269">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1f1ec34-1da7-45b0-8884-c284cbfe62c1"/>
+				<reportElement x="111" y="110" width="111" height="30" uuid="dda9072e-8a08-4afe-8ab7-f9d093f21afe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7dc0514d-6911-4e2f-9e07-752d8d329451"/>
 				</reportElement>
 				<text><![CDATA[Titulo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="222" y="0" width="111" height="30" uuid="e84c12df-bed7-48fa-8d71-ddba8b345aa4">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dd8bbfd9-dd47-4617-ba35-18339586279b"/>
+				<reportElement x="222" y="110" width="111" height="30" uuid="cada43b7-c248-4ac7-8151-e3521b88ba5c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74b192ea-6998-41c6-9ab4-3c46b04944b0"/>
 				</reportElement>
-				<text><![CDATA[Descrição	]]></text>
+				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="333" y="0" width="111" height="30" uuid="3d8f4960-4a71-44e4-9818-1865384839c5">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="654b0c86-1628-40b2-acbe-471945c4c0dc"/>
+				<reportElement x="333" y="110" width="111" height="30" uuid="d8cf483a-7623-4bcb-a4bf-8bcfc4b680d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="acdd46d2-c09d-43bc-a453-ac1a20714f17"/>
 				</reportElement>
-				<text><![CDATA[Prioridade	]]></text>
+				<text><![CDATA[Prioridade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="0" width="111" height="30" uuid="63c19d6e-42f7-43f5-9602-a053295fa60a">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bde1ce4f-e9f4-4762-b0bb-55bdfe8d2891"/>
+				<reportElement x="444" y="110" width="111" height="30" uuid="de55298b-bb1b-4c6f-bb58-e7718c1a92e8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ab808490-6ab3-41b9-ad5c-989649e89c69"/>
 				</reportElement>
 				<text><![CDATA[Complexidade]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="111" height="30" uuid="298ca4c1-48ef-4631-8db8-73b4f3fcde6b"/>
+				<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="30" width="111" height="30" uuid="c40ac459-fb7f-4475-b866-7176d3d1c447"/>
+				<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="30" width="111" height="30" uuid="392d2b88-8a0b-436b-887e-45f154cfb6bd"/>
+				<textFieldExpression><![CDATA[$F{end_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="30" width="111" height="30" uuid="0fb953db-ce2b-41da-bf99-3e423ff23669"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="30" width="111" height="30" uuid="97e3364a-a860-4a7c-9309-3014eeea5079"/>
+				<textFieldExpression><![CDATA[$F{priority}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="221" y="0" width="111" height="30" uuid="898c2ca7-2a89-4cc8-8ced-1a737293cdd5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74b192ea-6998-41c6-9ab4-3c46b04944b0"/>
+				</reportElement>
+				<text><![CDATA[Data de fim:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="0" width="111" height="30" uuid="cb444d76-1f87-447b-a57f-5fdc59a4b4ed">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35da9ec8-0a71-4b07-8d84-727b4cbb699a"/>
+				</reportElement>
+				<text><![CDATA[Projeto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="111" height="30" uuid="20a7e827-1090-4a91-9c82-1c53334f932b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7dc0514d-6911-4e2f-9e07-752d8d329451"/>
+				</reportElement>
+				<text><![CDATA[Data de inicio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="0" width="111" height="30" uuid="010b05b9-2aea-4977-9559-b2c347263a64">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ab808490-6ab3-41b9-ad5c-989649e89c69"/>
+				</reportElement>
+				<text><![CDATA[Complexidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="0" width="111" height="30" uuid="9b12f95a-25c3-4252-b062-86123f36d059">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="acdd46d2-c09d-43bc-a453-ac1a20714f17"/>
+				</reportElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="70" width="111" height="30" uuid="fc6b6a4d-418c-4a41-8977-9595ca0e5975">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74b192ea-6998-41c6-9ab4-3c46b04944b0"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Requisitos:]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="63" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="111" height="30" uuid="3bba72d5-ab6c-4cb5-9946-fa8fbdcea105">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bce69ab8-9ce7-4e24-8ec3-6692a982d069"/>
+				<reportElement x="0" y="0" width="111" height="30" uuid="a762ad3a-67ae-4ff7-8cc5-ef23084010d3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35da9ec8-0a71-4b07-8d84-727b4cbb699a"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{req_id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="0" width="111" height="30" uuid="036650d7-af9f-4f7d-8019-15761f9350ed">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1f1ec34-1da7-45b0-8884-c284cbfe62c1"/>
+				<reportElement x="111" y="0" width="111" height="30" uuid="414208d8-ed6c-4bcf-b959-0c09c8ffae53">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7dc0514d-6911-4e2f-9e07-752d8d329451"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{req_title}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="222" y="0" width="111" height="30" uuid="5afaa0b5-ce62-4a4d-8644-7aae6381858b">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dd8bbfd9-dd47-4617-ba35-18339586279b"/>
+				<reportElement x="222" y="0" width="111" height="30" uuid="5f647b16-c738-4fc4-abf1-638ce74c650d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74b192ea-6998-41c6-9ab4-3c46b04944b0"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{req_description}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="333" y="0" width="111" height="30" uuid="1a74baa4-0ab6-4952-ac04-31c2afc0a9c6">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="654b0c86-1628-40b2-acbe-471945c4c0dc"/>
+				<reportElement x="333" y="0" width="111" height="30" uuid="ff0a89b7-bf98-4964-aa8f-389e153f9aed">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="acdd46d2-c09d-43bc-a453-ac1a20714f17"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{req_priority}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="444" y="0" width="111" height="30" uuid="96398368-e05a-49a5-b9a1-47f84ad87545">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bde1ce4f-e9f4-4762-b0bb-55bdfe8d2891"/>
+				<reportElement x="444" y="0" width="111" height="30" uuid="767a9e59-1bad-46bb-8d9d-69f489c50675">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ab808490-6ab3-41b9-ad5c-989649e89c69"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{req_complexity}]]></textFieldExpression>
 			</textField>
